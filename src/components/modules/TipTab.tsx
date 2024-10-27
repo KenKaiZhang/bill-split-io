@@ -30,29 +30,28 @@ const TipTab: React.FC<TipTabProps> = ({
     useEffect(() => {
         if (selectedTip) {
             const newTip = (billTotal || 0) * ((selectedTip || 0) / 100) 
-            setCustomTip(undefined)
             setTip(newTip)
+        } else if (customTip) {
+            console.log("hee")
+            setTip(customTip)
         } else {
             setTip(0)
         }
-    }, [billTotal, selectedTip, setTip])
+    }, [billTotal, customTip, selectedTip, setTip])
 
     const handleSelectTip = (value: number) => {
         if (value === selectedTip)
             setSelectedTip(undefined)
-        else 
+        else {
+            setCustomTip(undefined)
             setSelectedTip(value)
-    }
-
-    const handleSubmitCustomTip = () => {
-        setSelectedTip(undefined)
-        setTip(customTip || 0)
+        }
     }
 
     const handleReset = () => {
-        setBillTotal(undefined)
-        setTip(undefined)
-        setHeads(undefined)
+        setBillTotal(0)
+        setTip(0)
+        setHeads(1)
         setCustomTip(undefined)
         setSelectedTip(undefined)
     }
@@ -107,7 +106,7 @@ const TipTab: React.FC<TipTabProps> = ({
                                     <Button className="bg-red-500">Cancel</Button>
                                     <Button 
                                         className="bg-cyan-800"
-                                        onClick={handleSubmitCustomTip}
+                                        onClick={() => setSelectedTip(undefined)}
                                     >Set Custom</Button>
                                 </div>
                             </DialogClose>
