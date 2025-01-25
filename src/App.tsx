@@ -9,18 +9,18 @@ import TipTab from './components/modules/TipTab';
 function App() {
 
   const [activeTab, setActiveTab] = useState("tip")
-  const [billTotal, setBillTotal] = useState<number | undefined>()
+  const [bill, setBill] = useState<number | undefined>()
+  const [tax, setTax] = useState<number | undefined>()
   const [tip, setTip] = useState<number | undefined>()
-  const [heads, setHeads] = useState<number | undefined>()
 
-  const handleBillTotalChange = (value: number | undefined) => {
-    setBillTotal(value)
+  const handleBillChange = (value: number | undefined) => {
+    setBill(value)
   } 
   const handleTipChange = (value: number | undefined) => {
     setTip(value)
   } 
-  const handleHeadsChange = (value: number | undefined) => {
-    setHeads(value)
+  const handleTaxChange = (value: number | undefined) => {
+    setTax(value)
   } 
 
   return (
@@ -48,7 +48,7 @@ function App() {
         className="w-[90%] max-w-[500px] aspect-[2/3]"
       >
         <TabsList>
-          {["bill", "tip"].map((tab) => (
+          {["tip", "bill"].map((tab) => (
             <TabsTrigger
               key={tab}
               value={tab}
@@ -60,22 +60,26 @@ function App() {
           ))}
         </TabsList>
         <TabsContent 
-          value="bill"
+          value="tip"
           className="px-8 py-4 bg-white rounded-b-lg rounded-tr-lg"
         >
-          <BillTab />
+          <TipTab 
+            bill={bill}
+            tip={tip}
+            tax={tax}
+            setBill={handleBillChange}
+            setTip={handleTipChange}
+            setTax={handleTaxChange}
+          />
         </TabsContent>
         <TabsContent 
-          value="tip"
+          value="bill"
           className="px-8 py-4 bg-white rounded-b-lg rounded-tl-lg"
         >
-          <TipTab 
-            billTotal={billTotal}
+          <BillTab 
+            bill={bill}
             tip={tip}
-            heads={heads}
-            setBillTotal={handleBillTotalChange}
-            setTip={handleTipChange}
-            setHeads={handleHeadsChange}
+            tax={tax}
           />
         </TabsContent>
       </Tabs>
